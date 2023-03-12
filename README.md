@@ -84,7 +84,7 @@ After this algorithm has run its course, there will be no more unconnected/unvis
 
 ### Randomly walking around
 
-This approach consists of making random decisions whenever a junction is reached, without keeping track of where w've been before. Given a finite maze where all nodes are connected, we will eventually find a path from any point to any other. This kind of strategy is far from optimal, but it can be used in real life (and very likely is, most of the time) by people or animals that have to navigate a maze.
+This approach consists of making random decisions whenever a junction is reached, without keeping track of where we've been before. Given a finite maze where all nodes are connected, we will eventually find a path from any point to any other. This kind of strategy is far from optimal, but it can be used in real life (and very likely is, most of the time) by people or animals that have to navigate a maze.
 
 ### Following a wall
 
