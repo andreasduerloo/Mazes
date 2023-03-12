@@ -63,3 +63,15 @@ Example output (20 x 20 nodes):
 ##                      ##                      ##              ##              ##
 ##################################################################################
 ```
+ #### How it works
+
+ 1. Start with a grid of unconnected nodes. We use a map where pairs of coordinates are the key. As values we will store the previous node.
+ 2. Take a random node to be the origin. That's where we'll start building the maze.
+ 3. For that node, list all unvisited neighbors (i.e. neighboring nodes that don't have a previous node in the map).
+  - If there are unvisited neighbors, step to one at random and note the node we came from. Recursively go to step 3 for the new node.
+  - If there are no unvisited neighbors: 
+    - Is the current node the origin? That means we're done!
+    - If the current node is not the origin, step back to the previous node and recurse into step 3 again.
+
+After this algorithm has run its course, there will be no more unconnected/unvisited nodes. The output will be (in this implementation) a map of nodes and the node they were visited from.
+    
