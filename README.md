@@ -9,9 +9,16 @@ These topics are currently ready:
 
 ## Maze generation
 
+A 'good' or 'correct' maze has a few properties:
+- Every point is reachable from any other point. Without this property we would have disjointed parts of the maze, separated by a wall.
+- Every point is connected to every other point by exactly one direct path. Without this property we would have loops and isolated islands of walls that could mess with some of the more naive pathfinding algorithms.
+See also the [Wikipedia article](https://en.wikipedia.org/wiki/Maze_generation_algorithm).
+
+These properties allow mazes to be considered [spanning trees](https://en.wikipedia.org/wiki/Spanning_tree).
+
 ### Randomized depth-first search
 
-Example output:
+Example output (20 x 20 nodes):
 
 ```
 ##################################################################################

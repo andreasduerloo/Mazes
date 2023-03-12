@@ -3,26 +3,26 @@ defmodule Maze.Create do
     maze = for x <- 0..dimension - 1, y <- 0..dimension - 1, into: %{}, do: {{x, y}, false}
     origin = Map.keys(maze) |> Enum.random()
     maze = %{maze | origin => "Origin"}
-    dfs(origin, maze, origin)
+    dfs(origin, maze)
   end
 
-  defp dfs(point, maze, origin) do
+  defp dfs(point, maze) do
     neighbors = neighbors?(point, maze)
     if neighbors do
       next = Enum.random(neighbors)
       maze = %{maze | next => point}
-      dfs(next, maze, origin)
+      dfs(next, maze)
     else
-      if point == origin do # We're back at the start and there are no unvisited neighbors -> we're done!
+      if maze[point] == "Origin" do # We're back at the start and there are no unvisited neighbors -> we're done!
         maze
       else # Step back to the previous point and continue from there
-        dfs(maze[point], maze, origin)
+        dfs(maze[point], maze)
       end
     end
   end
 
   defp neighbors?({x, y}, maze) do # Return false if there are no unvisited neighbors, else return list of visitable neighbors
-    unvisited = [{x - 1, y}, {x + 1, y}, {x, y - 1}, {x, y + 1}] |> Enum.filter(&( maze[&1] != nil && !maze[&1]))
+    unvisited = [{x - 1, y}, {x + 1, y}, {x, y - 1}, {x, y + 1}] |> Enum.filter(&(maze[&1] != nil && !maze[&1]))
     if unvisited == [] do
       false
     else
