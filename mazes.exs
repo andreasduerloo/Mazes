@@ -155,20 +155,50 @@ defmodule Maze.Kruskal do
   # Drawing
 
   def draw(walls, dimension) do
-    canvas = List.duplicate("##", 2 * dimension + 1) # Top border
-
-    canvas = [canvas] ++ [List.duplicate("##", 2 * dimension + 1)] # Bottom border
-
-    canvas |> Enum.map(&(&1 ++ ["\n"])) |> List.to_string() |> IO.puts()
+    canvas = [List.duplicate("##", 2 * dimension + 1)] ++ draw_nodes(dimension) ++ [List.duplicate("##", 2 * dimension + 1)]
+    |> draw_walls(walls)
+    |> Enum.map(&(&1 ++ ["\n"]))
+    |> List.to_string()
+    |> IO.puts()
   end
 
   # Drawing - helpers
-  defp setup_canvas(dimension) do
-    #
+
+  defp draw_nodes(dimension) do # Top line with nodes
+    line = ["##"] ++ [List.duplicate(["  "], dimension * 2 - 1)] ++ ["##"]
+    draw_nodes([line], dimension)
   end
 
+  defp draw_nodes(lines, dimension) do
+    if Enum.count(lines) == (2 * dimension - 1) do
+      lines
+    else
+      line1 = List.duplicate(["##", "  "], dimension) ++ ["##"] |> List.flatten
+      line2 = ["##"] ++ List.duplicate("  ", 2 * dimension - 1) ++ ["##"]
+      newlines = [ line1, line2 ]
+
+      draw_nodes(lines ++ newlines, dimension)
+    end
+  end
+
+  defp draw_walls(canvas, []) do
+    canvas
+  end
+
+  defp draw_walls(canvas, [[{x1, y1}, {x2, y2}] | walls]) do
+    cond do
+      x1 == x2 -> # Vertical wall
+        line = canvas |> Enum.fetch!(2 * x1 + 1) |> List.replace_at(y1 + y2 + 1, "##")
+        canvas = List.replace_at(canvas, 2 * x1 + 1, line)
+        draw_walls(canvas, walls)
+      y1 == y2 -> # Horizontal wall
+        line = canvas |> Enum.fetch!(x1 + x2 + 1) |> List.replace_at(2 * y1 + 1, "##")
+        canvas = List.replace_at(canvas, x1 + x2 + 1, line)
+        draw_walls(canvas, walls)
+    end
+  end
 end
 
 Maze.DFS.create(20) |> Maze.DFS.draw()
 
-# Maze.Kruskal.create(20) |> Maze.Kruskal.draw()
+Maze.Kruskal.create(20) |> Maze.Kruskal.draw(20)
