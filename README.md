@@ -1,11 +1,12 @@
 # Mazes
 
-Mazes is a work-in-progress project exploring maze generation and pathfinding algorithms in Elixir.
+Mazes is a work-in-progress project exploring maze generation and pathfinding algorithms in Elixir. This page follows the same structure as the [Wikipedia article](https://en.wikipedia.org/wiki/Maze_generation_algorithm).
 
 These topics are currently ready:
 
 - [Maze generation](https://github.com/andreasduerloo/Mazes#maze-generation)
   - [Randomized depth-first search](https://github.com/andreasduerloo/Mazes#randomized-depth-first-search)
+  - [Randomized Kruskal's algorith](https://github.com/andreasduerloo/Mazes#randomized-kruskals-algorithm)
 - Maze solving and pathfinding
   - Randomly walking around
   - Following a wall
@@ -15,7 +16,6 @@ These topics are currently ready:
 A 'good' or 'correct' maze has a few properties:
 - Every point is reachable from any other point. Without this property we would have disjointed parts of the maze, separated by a wall.
 - Every point is connected to every other point by exactly one direct path. Without this property we would have loops and isolated islands of walls that could mess with some of the more naive pathfinding algorithms.
-See also the [Wikipedia article](https://en.wikipedia.org/wiki/Maze_generation_algorithm).
 
 These properties allow mazes to be considered [spanning trees](https://en.wikipedia.org/wiki/Spanning_tree).
 
@@ -81,6 +81,66 @@ Example output (20 x 20 nodes):
 After this algorithm has run its course, there will be no more unconnected/unvisited nodes. The output will be (in this implementation) a map of nodes and the node they were visited from. We then run that output through a drawing function which translates it into the output you see above.
 
 The downside (or characteristic) of this algorithm is that it favors long, winding hallways with relatively few branches.
+
+### Randomized Kruskal's Algorithm
+
+Kruskal's Algorithm starts with a grid of nodes with walls in between all of them. Every 'tick', we select a random wall and check whether the two nodes separated by that wall are already, somehow, connected. If they are not, we remove the wall between them. If, however, they are already connected (i.e., a path between them exists), we leave the wall in place and move on. We keep doing this until we have checked all walls.
+
+Example output (20 nodes):
+```
+##################################################################################
+##  ##  ##          ##  ##      ##                  ##      ##  ##      ##      ##
+##  ##  ##########  ##  ##  ##########  ##################  ##  ######  ##  ######
+##                  ##                              ##              ##          ##
+##  ######  ##########  ##############  ######  ##  ##########  ##  ######  ######
+##  ##      ##          ##  ##  ##      ##      ##  ##  ##  ##  ##          ##  ##
+##  ######  ##############  ##  ##  ######  ##########  ##  ##########  ######  ##
+##      ##              ##          ##          ##      ##              ##  ##  ##
+##  ##############  ##  ##  ##################  ##  ##########  ##  ##  ##  ##  ##
+##  ##  ##  ##      ##  ##  ##  ##      ##          ##  ##  ##  ##  ##          ##
+######  ##  ##  ######  ######  ######  ######  ##  ##  ##  ######  ######  ######
+##  ##  ##      ##      ##          ##  ##      ##      ##  ##      ##          ##
+##  ##  ######  ######  ######  ##  ##  ##  ##########  ##  ##  ##  ##########  ##
+##  ##  ##      ##      ##      ##                  ##      ##  ##          ##  ##
+##  ##  ##########  ######  ######################  ######  ##  ##################
+##          ##  ##      ##      ##          ##      ##  ##          ##  ##  ##  ##
+######  ##  ##  ##  ##  ##  ##  ######  ##############  ##########  ##  ##  ##  ##
+##      ##  ##      ##  ##  ##      ##  ##  ##                  ##  ##          ##
+##  ##################  ##  ##  ##  ##  ##  ##  ##########  ##  ######  ##  ######
+##                  ##      ##  ##      ##              ##  ##  ##      ##      ##
+######  ######  ##########  ##############  ######################  ##########  ##
+##          ##  ##  ##                              ##  ##  ##  ##  ##  ##      ##
+##  ######  ##  ##  ##  ##  ######  ##########  ######  ##  ##  ##  ##  ##########
+##  ##  ##  ##          ##  ##  ##  ##  ##      ##              ##              ##
+##  ##  ##########  ##  ######  ######  ##  ##  ##  ##  ##############  ######  ##
+##      ##      ##  ##  ##  ##  ##  ##      ##  ##  ##              ##  ##      ##
+######  ######  ##########  ##  ##  ######  ##############  ##################  ##
+##          ##      ##                  ##  ##  ##  ##  ##  ##      ##      ##  ##
+##  ######  ##  ##  ##  ######  ##########  ##  ##  ##  ##  ######  ##  ##  ##  ##
+##  ##          ##  ##      ##  ##  ##              ##                  ##      ##
+##  ##############  ######  ######  ##  ##########  ######  ##  ##  ##  ##########
+##          ##  ##  ##          ##          ##              ##  ##  ##          ##
+##############  ##  ######  ##########  ##########  ######  ##  ##  ######  ######
+##  ##                          ##      ##              ##  ##  ##  ##  ##      ##
+##  ######  ##  ##############  ######  ######  ##  ######  ######  ##  ##  ######
+##          ##      ##  ##          ##      ##  ##      ##      ##  ##          ##
+######  ######  ##  ##  ##  ######  ##########################  ######  ##  ##  ##
+##      ##      ##      ##  ##      ##              ##          ##      ##  ##  ##
+######  ##  ######  ##########  ##########  ##########  ##  ##########  ##  ######
+##      ##  ##      ##              ##                  ##      ##      ##      ##
+##################################################################################
+```
+
+#### How it works
+
+1. Start with a grid of nodes and a list containing all walls between those nodes. A node can belong to a 'set' of connected nodes, or be unconnected. Initially all nodes are unconnected
+2. Take a random wall and check whether the two adjoining nodes belong to the same set.
+  - If they do, leave the wall in place.
+  - If they don't, remove the wall and resolve the set(s):
+    - If both nodes already belong to a set, put ALL the nodes from both those sets in a new set.
+    - If only one node is part of a set, add the unconnected node to that set.
+    - If neither node belongs to a set, both nodes become part of a new set.
+3. Repeat step 2 until no unchecked walls remain.
 
 ## Maze solving and pathfinding
 
