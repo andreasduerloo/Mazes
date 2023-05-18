@@ -142,6 +142,10 @@ Example output (20 nodes):
     - If neither node belongs to a set, both nodes become part of a new set.
 3. Repeat step 2 until no unchecked walls remain.
 
+We then run that output through a drawing function which translates it into the output you see above, by only drawing the walls that were kept.
+
+The characteristic of this algorithm is that - as opposed to the depth-first search - it will produce many, short dead ends.
+
 ## Maze solving and pathfinding
 
 ### Randomly walking around
