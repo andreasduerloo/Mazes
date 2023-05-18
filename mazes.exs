@@ -199,6 +199,8 @@ defmodule Maze.Kruskal do
   end
 end
 
+IO.puts("Depth-first search:\n")
 Maze.DFS.create(20) |> Maze.DFS.draw()
 
+IO.puts("\nRandomized Kruskal:\n")
 Maze.Kruskal.create(20) |> Maze.Kruskal.draw(20)
