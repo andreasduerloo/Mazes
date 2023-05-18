@@ -80,6 +80,8 @@ Example output (20 x 20 nodes):
 
 After this algorithm has run its course, there will be no more unconnected/unvisited nodes. The output will be (in this implementation) a map of nodes and the node they were visited from. We then run that output through a drawing function which translates it into the output you see above.
 
+The downside (or characteristic) of this algorithm is that it favors long, winding hallways with relatively few branches.
+
 ## Maze solving and pathfinding
 
 ### Randomly walking around
