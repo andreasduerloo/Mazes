@@ -6,7 +6,7 @@ These topics are currently ready:
 
 - [Maze generation](https://github.com/andreasduerloo/Mazes#maze-generation)
   - [Randomized depth-first search](https://github.com/andreasduerloo/Mazes#randomized-depth-first-search)
-  - [Randomized Kruskal's algorith](https://github.com/andreasduerloo/Mazes#randomized-kruskals-algorithm)
+  - [Randomized Kruskal's algorithm](https://github.com/andreasduerloo/Mazes#randomized-kruskals-algorithm)
 - Maze solving and pathfinding
   - Randomly walking around
   - Following a wall
