@@ -165,7 +165,7 @@ defmodule Maze.Kruskal do
   # Drawing - helpers
 
   defp draw_nodes(dimension) do # Top line with nodes
-    line = ["##"] ++ [List.duplicate(["  "], dimension * 2 - 1)] ++ ["##"]
+    line = ["##"] ++ List.duplicate("  ", 2 * dimension - 1) ++ ["##"]
     draw_nodes([line], dimension)
   end
 
